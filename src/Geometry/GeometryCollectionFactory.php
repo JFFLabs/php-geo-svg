@@ -31,8 +31,8 @@ class GeometryCollectionFactory
                 continue;
             }
 
-            if (array_key_exists('properties', $feature) && array_key_exists('featurecla', $feature['properties'])) {
-                $geometryObject->setFeatureClass($feature['properties']['featurecla']);
+            if (array_key_exists('properties', $feature)) {
+                $geometryObject->setProperties($feature['properties']);
             }
 
             $geometryCollection->addGeometryObject($geometryObject);

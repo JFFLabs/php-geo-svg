@@ -70,8 +70,8 @@ class ElementFactory
             $element->addChildElement((new TitleElement())->setTextContent(new TextContent($geometryObject->getTitle())));
         }
 
-        if (null !== $geometryObject->getFeatureClass()) {
-            $element->setAttribute('data-feature-class', $geometryObject->getFeatureClass());
+        foreach ($geometryObject->getProperties() as $property => $value) {
+            $element->setAttribute($property, $value);
         }
 
         return $element;
