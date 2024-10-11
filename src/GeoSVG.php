@@ -22,7 +22,9 @@ class GeoSVG
 
     public const PACKAGE_PATH = self::VENDOR_NAME . '/' . self::PACKAGE_NAME;
 
-    private ?Scale $scale = null;
+    private ?Scale $scale  = null;
+    private float $offsetX = 0;
+    private float $offsetY = 0;
 
     public function __construct(private ?Projection $projection = null, private ?BoundingBox $boundingBox = null)
     {
@@ -63,6 +65,22 @@ class GeoSVG
         return $this->boundingBox;
     }
 
+    public function setOffsetX(float $value): self
+    {
+        $this->offsetX = $value;
+
+        return $this;
+    }
+
+
+    public function setOffsetY(float $value): self
+    {
+        $this->offsetY = $value;
+
+        return $this;
+    }
+
+
     public function setScale(?Scale $scale): self
     {
         $this->scale = $scale;
@@ -85,7 +103,16 @@ class GeoSVG
     public function render(GeometryCollection $geometryCollection): string
     {
         return ElementRenderer::renderElement(
-            ElementFactory::buildForGeometryCollection($geometryCollection, new Coordinator($this->getProjection(), $this->getBoundingBox(), $this->getScale()))
+            ElementFactory::buildForGeometryCollection(
+                $geometryCollection,
+                new Coordinator(
+                    $this->getProjection(),
+                    $this->getBoundingBox(),
+                    $this->getScale(),
+                    $this->offsetX,
+                    $this->offsetY
+                )
+            )
         );
     }
 

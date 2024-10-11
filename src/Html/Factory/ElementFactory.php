@@ -34,11 +34,19 @@ class ElementFactory
         $svgElement = (new SvgElement())
             ->setAttribute('width', $coordinator->getWidth())
             ->setAttribute('height', $coordinator->getHeight())
-            ->setAttribute('viewbox', '0 0 ' . $coordinator->getWidth() . ' ' . $coordinator->getHeight());
+        ;
 
         foreach ($geometryCollection->getGeometryObjects() as $geometryObject) {
             $svgElement->addChildElement(self::buildForGeometryObject($geometryObject, $coordinator));
         }
+
+        $svgElement->setAttribute('viewbox', sprintf(
+            '%s %s %s %s',
+            $coordinator->west,
+            $coordinator->south,
+            $coordinator->east - $coordinator->west,
+            $coordinator->north - $coordinator->south
+        ));
 
         return $svgElement;
     }
