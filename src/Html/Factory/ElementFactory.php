@@ -29,12 +29,15 @@ class ElementFactory
     /**
      * @throws NotImplementedException
      */
-    public static function buildForGeometryCollection(GeometryCollection $geometryCollection, Coordinator $coordinator): Element
+    public static function buildForGeometryCollection(GeometryCollection $geometryCollection, Coordinator $coordinator, callable $renderHook = NULL): Element
     {
         $svgElement = (new SvgElement())
             ->setAttribute('width', $coordinator->getWidth())
-            ->setAttribute('height', $coordinator->getHeight())
         ;
+
+        if ($renderHook) {
+            $renderHook($svgElement);
+        }
 
         foreach ($geometryCollection->getGeometryObjects() as $geometryObject) {
             $svgElement->addChildElement(self::buildForGeometryObject($geometryObject, $coordinator));

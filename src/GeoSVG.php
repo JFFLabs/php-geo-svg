@@ -100,7 +100,7 @@ class GeoSVG
     /**
      * @throws PhpGeoSVGException
      */
-    public function render(GeometryCollection $geometryCollection): string
+    public function render(GeometryCollection $geometryCollection, ?callable $renderHook = NULL): string
     {
         return ElementRenderer::renderElement(
             ElementFactory::buildForGeometryCollection(
@@ -111,8 +111,9 @@ class GeoSVG
                     $this->getScale(),
                     $this->offsetX,
                     $this->offsetY
-                )
-            )
+                ),
+                $renderHook
+            ),
         );
     }
 

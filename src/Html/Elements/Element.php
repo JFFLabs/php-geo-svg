@@ -7,14 +7,24 @@ namespace PrinsFrank\PhpGeoSVG\Html\Elements;
 use PrinsFrank\PhpGeoSVG\Html\Elements\Definition\ForeignElement;
 use PrinsFrank\PhpGeoSVG\Html\Elements\Text\TextContent;
 
-abstract class Element
+class Element
 {
     /** @var Element[] */
     protected array $childElements = [];
 
     /** @var array<string, string> */
-    protected array      $attributes = [];
+    protected array $attributes = [];
+
+    protected string $tagName = 'svg';
+
     private ?TextContent $textContent = null;
+
+    public function __construct(string $tagName = null)
+    {
+        if ($tagName) {
+            $this->tagName = $tagName;
+        }
+    }
 
     public function addChildElement(Element $childElement): self
     {
@@ -81,5 +91,8 @@ abstract class Element
         return true;
     }
 
-    abstract public function getTagName(): string;
+    public function getTagName(): string
+    {
+        return $this->tagName;
+    }
 }
